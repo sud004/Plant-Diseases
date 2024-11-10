@@ -163,7 +163,7 @@ with col2:
 if uploaded_file is not None:
     img = Image.open(uploaded_file)
 elif camera_input is not None:
-    img = Image.open(io.BytesIO(camera_input))
+    img = Image.open(io.BytesIO(camera_input.getvalue()))
 
 if img is not None:
     # Display the uploaded image
