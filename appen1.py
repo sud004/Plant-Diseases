@@ -27,17 +27,35 @@ def get_disease_info(predicted_class):
             'Description': 'Early blight in potato leaves, often caused by the fungus Alternaria solani.',
             'Remedy': 'Remove affected leaves, rotate crops, and apply fungicides as needed.'
         },
+        'Potato__healthy': {
+            'Plant': 'Potato',
+            'Issue': 'Healthy',
+            'Description': 'The potato plant is healthy.',
+            'Remedy': 'Continue monitoring and provide regular care, such as balanced fertilization and proper watering.'
+        },
         'Potato__Late_blight': {
             'Plant': 'Potato',
             'Issue': 'Late Blight',
             'Description': 'Late blight in potato leaves, caused by Phytophthora infestans.',
             'Remedy': 'Use fungicides, remove infected plants, and avoid overhead watering to limit spread.'
         },
-        'Potato__healthy': {
-            'Plant': 'Potato',
-            'Issue': 'Healthy',
-            'Description': 'The potato plant is healthy.',
-            'Remedy': 'Continue monitoring and provide regular care, such as balanced fertilization and proper watering.'
+        'Tomato__Target_Spot': {
+            'Plant': 'Tomato',
+            'Issue': 'Target Spot',
+            'Description': 'Target spot disease, caused by Corynespora cassiicola, affecting tomato leaves.',
+            'Remedy': 'Remove affected foliage, avoid wetting foliage, and apply fungicides if needed.'
+        },
+        'Tomato__Tomato_mosaic_virus': {
+            'Plant': 'Tomato',
+            'Issue': 'Tomato Mosaic Virus',
+            'Description': 'Infection caused by Tomato Mosaic Virus, leading to mottling and distortion of leaves.',
+            'Remedy': 'Remove infected plants, disinfect tools, and avoid handling plants when wet.'
+        },
+        'Tomato__Tomato_YellowLeaf_Curl_Virus': {
+            'Plant': 'Tomato',
+            'Issue': 'Yellow Leaf Curl Virus',
+            'Description': 'Tomato Yellow Leaf Curl Virus, transmitted by whiteflies, causing leaf curl and yellowing.',
+            'Remedy': 'Use disease-resistant varieties, control whiteflies, and remove infected plants.'
         },
         'Tomato__Bacterial_spot': {
             'Plant': 'Tomato',
@@ -50,6 +68,12 @@ def get_disease_info(predicted_class):
             'Issue': 'Early Blight',
             'Description': 'Early blight in tomato leaves, caused by Alternaria solani.',
             'Remedy': 'Prune affected leaves, rotate crops, and apply appropriate fungicides.'
+        },
+        'Tomato__Healthy': {
+            'Plant': 'Tomato',
+            'Issue': 'Healthy',
+            'Description': 'The tomato plant is healthy and free from disease.',
+            'Remedy': 'Provide balanced nutrients, ensure proper watering, and monitor regularly for signs of disease.'
         },
         'Tomato__Late_blight': {
             'Plant': 'Tomato',
@@ -75,36 +99,12 @@ def get_disease_info(predicted_class):
             'Description': 'Damage caused by two-spotted spider mites on tomato leaves.',
             'Remedy': 'Spray with insecticidal soap, maintain humidity, and remove heavily infested leaves.'
         },
-        'Tomato__Target_Spot': {
-            'Plant': 'Tomato',
-            'Issue': 'Target Spot',
-            'Description': 'Target spot disease, caused by Corynespora cassiicola, affecting tomato leaves.',
-            'Remedy': 'Remove affected foliage, avoid wetting foliage, and apply fungicides if needed.'
-        },
-        'Tomato__Tomato_YellowLeaf_Curl_Virus': {
-            'Plant': 'Tomato',
-            'Issue': 'Yellow Leaf Curl Virus',
-            'Description': 'Tomato Yellow Leaf Curl Virus, transmitted by whiteflies, causing leaf curl and yellowing.',
-            'Remedy': 'Use disease-resistant varieties, control whiteflies, and remove infected plants.'
-        },
-        'Tomato__Tomato_mosaic_virus': {
-            'Plant': 'Tomato',
-            'Issue': 'Tomato Mosaic Virus',
-            'Description': 'Infection caused by Tomato Mosaic Virus, leading to mottling and distortion of leaves.',
-            'Remedy': 'Remove infected plants, disinfect tools, and avoid handling plants when wet.'
-        },
-        'Tomato__Healthy': {
-            'Plant': 'Tomato',
-            'Issue': 'Healthy',
-            'Description': 'The tomato plant is healthy and free from disease.',
-            'Remedy': 'Provide balanced nutrients, ensure proper watering, and monitor regularly for signs of disease.'
-        },
         'Other': {
             'Plant': 'Unknown',
             'Issue': 'Unknown',
             'Description': 'The uploaded image does not match any known plant disease.',
             'Remedy': 'Ensure you are uploading an image related to plant diseases.'
-    }
+        }
     }
     return disease_info.get(predicted_class, {
         'Plant': 'Unknown',
@@ -113,18 +113,15 @@ def get_disease_info(predicted_class):
         'Remedy': 'No remedy available.'
     })
 
+
 # Class names
 CLASS_NAME = [
     'Pepper_bell__Bacterial_spot', 'Pepper_bell__healthy',
-    'Potato__Early_blight', 'Potato__Late_blight', 'Potato__healthy',
-    'Tomato__Bacterial_spot', 'Tomato__Early_blight',
+    'Potato__Early_blight',  'Potato__healthy','Potato__Late_blight','Tomato__Target_Spot','Tomato__Tomato_mosaic_virus','Tomato__Tomato_YellowLeaf_Curl_Virus',
+    'Tomato__Bacterial_spot', 'Tomato__Early_blight','Tomato__Healthy',
     'Tomato__Late_blight', 'Tomato__Leaf_Mold',
     'Tomato__Septoria_leaf_spot',
-    'Tomato__Spider_mites_Two_spotted_spider_mite',
-    'Tomato__Target_Spot',
-    'Tomato__Tomato_YellowLeaf_Curl_Virus',
-    'Tomato__Tomato_mosaic_virus',
-    'Tomato__Healthy','Other' 
+    'Tomato__Spider_mites_Two_spotted_spider_mite','Other' 
 ]
 
 # Streamlit App Interface
