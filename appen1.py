@@ -5,7 +5,7 @@ from PIL import Image
 import io
 
 # Load the Keras model
-model = tf.keras.models.load_model('model.h5')  # Update path if needed
+model = tf.keras.models.load_model('model_1.h5')  # Update path if needed
 
 def get_disease_info(predicted_class):
     disease_info = {
@@ -98,7 +98,13 @@ def get_disease_info(predicted_class):
             'Issue': 'Healthy',
             'Description': 'The tomato plant is healthy and free from disease.',
             'Remedy': 'Provide balanced nutrients, ensure proper watering, and monitor regularly for signs of disease.'
-        }
+        },
+        'Other': {
+            'Plant': 'Unknown',
+            'Issue': 'Unknown',
+            'Description': 'The uploaded image does not match any known plant disease.',
+            'Remedy': 'Ensure you are uploading an image related to plant diseases.'
+    }
     }
     return disease_info.get(predicted_class, {
         'Plant': 'Unknown',
@@ -124,7 +130,7 @@ def get_disease_description(predicted_class):
         'Tomato__Target_Spot': 'Target spot disease in tomato plants.',
         'Tomato__Tomato_YellowLeaf_Curl_Virus': 'Yellow leaf curl virus affecting tomato plants.',
         'Tomato__Tomato_mosaic_virus': 'Tomato mosaic virus infecting tomato leaves.',
-        'Tomato__Healthy': 'Healthy tomato plant.'
+        'Tomato__Healthy': 'Healthy tomato plant.','Other':'Unknown'
 
     }
     return disease_descriptions.get(predicted_class, "No description available.")
@@ -141,7 +147,7 @@ CLASS_NAME = [
     'Tomato__Target_Spot',
     'Tomato__Tomato_YellowLeaf_Curl_Virus',
     'Tomato__Tomato_mosaic_virus',
-    'Tomato__Healthy'
+    'Tomato__Healthy','Other' 
 ]
 
 # Streamlit App Interface
@@ -182,9 +188,17 @@ if img is not None:
     predictions = model.predict(img_array)
 
     # Get the predicted class and confidence
-    predicted_class = CLASS_NAME[np.argmax(predictions[0])]
     confidence = round(100 * (np.max(predictions[0])), 2)
     
+    confidence_threshold = 60.0
+
+    # Determine the predicted class
+    if confidence < confidence_threshold:
+        predicted_class = "Other"
+    else:
+        predicted_class = CLASS_NAME[np.argmax(predictions[0])]
+
+    disease_info = get_disease_info(predicted_class)
         
 
     # Model prediction
