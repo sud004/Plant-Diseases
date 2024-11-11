@@ -113,29 +113,6 @@ def get_disease_info(predicted_class):
         'Remedy': 'No remedy available.'
     })
 
-# Helper function to get description (you can enhance this based on your requirements)
-def get_disease_description(predicted_class):
-    disease_descriptions = {
-        'Pepper_bell__Bacterial_spot': 'Bacterial Spot in pepper bell leaves.',
-        'Pepper_bell__healthy': 'Healthy pepper bell plant.',
-        'Potato__Early_blight': 'Early blight in potato leaves.',
-        'Potato__Late_blight': 'Late blight in potato leaves.',
-        'Potato__healthy': 'Healthy potato plant.',
-        'Tomato__Bacterial_spot': 'Bacterial spot in tomato leaves.',
-        'Tomato__Early_blight': 'Early blight in tomato leaves.',
-        'Tomato__Late_blight': 'Late blight in tomato leaves.',
-        'Tomato__Leaf_Mold': 'Leaf mold in tomato plant.',
-        'Tomato__Septoria_leaf_spot': 'Septoria leaf spot in tomato.',
-        'Tomato__Spider_mites_Two_spotted_spider_mite': 'Spider mites causing damage to tomato leaves.',
-        'Tomato__Target_Spot': 'Target spot disease in tomato plants.',
-        'Tomato__Tomato_YellowLeaf_Curl_Virus': 'Yellow leaf curl virus affecting tomato plants.',
-        'Tomato__Tomato_mosaic_virus': 'Tomato mosaic virus infecting tomato leaves.',
-        'Tomato__Healthy': 'Healthy tomato plant.','Other':'Unknown'
-
-    }
-    return disease_descriptions.get(predicted_class, "No description available.")
-
-
 # Class names
 CLASS_NAME = [
     'Pepper_bell__Bacterial_spot', 'Pepper_bell__healthy',
@@ -157,7 +134,7 @@ st.markdown("""
     Upload an image and let the model predict the plant condition.
 """)
 
-img = None
+# File upload and camera capture
 col1, col2 = st.columns(2)
 
 with col1:
@@ -166,49 +143,34 @@ with col1:
 with col2:
     camera_input = st.camera_input("Capture Image", label_visibility="collapsed")
 
-if uploaded_file is not None:
+img = None
+if uploaded_file:
     img = Image.open(uploaded_file)
-elif camera_input is not None:
+elif camera_input:
     img = Image.open(io.BytesIO(camera_input.getvalue()))
 
-if img is not None:
-    # Display the uploaded image
-    
-   
+if img:
     st.image(img, caption='Uploaded Image', use_container_width=True)
-    st.write("")
 
+    # Preprocess the image for the model
     img = img.resize((256, 256))
-    
     img_array = tf.keras.preprocessing.image.img_to_array(img)
-    # Add a batch dimension
-    img_array = tf.expand_dims(img_array, 0)
+    img_array = tf.expand_dims(img_array, 0)  # Add batch dimension
 
     # Predict the class
     predictions = model.predict(img_array)
+    confidence = round(100 * np.max(predictions[0]), 2)
 
-    # Get the predicted class and confidence
-    confidence = round(100 * (np.max(predictions[0])), 2)
-    
+    # Confidence threshold
     confidence_threshold = 60.0
-
-    # Determine the predicted class
     if confidence < confidence_threshold:
         predicted_class = "Other"
     else:
         predicted_class = CLASS_NAME[np.argmax(predictions[0])]
 
+    # Get disease information
     disease_info = get_disease_info(predicted_class)
-        
 
-    # Model prediction
-    with st.spinner('Making prediction...'):
-        prediction = predictions
-        predicted_class = predicted_class
-        confidence = confidence
-
-    disease_info = get_disease_info(predicted_class)
-    
     # Display prediction results
     st.subheader("Prediction Results:")
     st.write(f"**Plant Name:** {disease_info['Plant']}")
@@ -216,5 +178,3 @@ if img is not None:
     st.write(f"**Confidence:** {confidence:.2f}%")
     st.write(f"**Description:** {disease_info['Description']}")
     st.write(f"**Remedy:** {disease_info['Remedy']}")
-
-
