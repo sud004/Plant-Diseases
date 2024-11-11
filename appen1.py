@@ -9,6 +9,12 @@ model = tf.keras.models.load_model('model_1.h5')  # Update path if needed
 
 def get_disease_info(predicted_class):
     disease_info = {
+        'Other': {
+            'Plant': 'Unknown',
+            'Issue': 'Unknown',
+            'Description': 'The uploaded image does not match any known plant disease.',
+            'Remedy': 'Ensure you are uploading an image related to plant diseases.'
+        },
         'Pepper_bell__Bacterial_spot': {
             'Plant': 'Pepper Bell',
             'Issue': 'Bacterial Spot',
@@ -21,23 +27,59 @@ def get_disease_info(predicted_class):
             'Description': 'The pepper bell plant is healthy.',
             'Remedy': 'Maintain regular watering, provide balanced nutrients, and inspect leaves for any early signs of disease.'
         },
-        'Potato__Early_blight': {
+        'Potato___Early_blight': {
             'Plant': 'Potato',
             'Issue': 'Early Blight',
             'Description': 'Early blight in potato leaves, often caused by the fungus Alternaria solani.',
             'Remedy': 'Remove affected leaves, rotate crops, and apply fungicides as needed.'
         },
-        'Potato__healthy': {
+        'Potato___Late_blight': {
+            'Plant': 'Potato',
+            'Issue': 'Late Blight',
+            'Description': 'Late blight in potato leaves, caused by Phytophthora infestans.',
+            'Remedy': 'Use fungicides, remove infected plants, and avoid overhead watering to limit spread.'
+        },
+        'Potato___healthy': {
             'Plant': 'Potato',
             'Issue': 'Healthy',
             'Description': 'The potato plant is healthy.',
             'Remedy': 'Continue monitoring and provide regular care, such as balanced fertilization and proper watering.'
         },
-        'Potato__Late_blight': {
-            'Plant': 'Potato',
+        'Tomato_Bacterial_spot': {
+            'Plant': 'Tomato',
+            'Issue': 'Bacterial Spot',
+            'Description': 'Bacterial spot affecting tomato leaves, caused by Xanthomonas bacteria.',
+            'Remedy': 'Remove infected leaves, use disease-resistant varieties, and apply copper-based fungicides.'
+        },
+        'Tomato_Early_blight': {
+            'Plant': 'Tomato',
+            'Issue': 'Early Blight',
+            'Description': 'Early blight in tomato leaves, caused by Alternaria solani.',
+            'Remedy': 'Prune affected leaves, rotate crops, and apply appropriate fungicides.'
+        },
+        'Tomato_Late_blight': {
+            'Plant': 'Tomato',
             'Issue': 'Late Blight',
-            'Description': 'Late blight in potato leaves, caused by Phytophthora infestans.',
-            'Remedy': 'Use fungicides, remove infected plants, and avoid overhead watering to limit spread.'
+            'Description': 'Late blight affecting tomato plants, caused by Phytophthora infestans.',
+            'Remedy': 'Apply fungicides, remove infected plants, and avoid overhead watering.'
+        },
+        'Tomato_Leaf_Mold': {
+            'Plant': 'Tomato',
+            'Issue': 'Leaf Mold',
+            'Description': 'Leaf mold in tomato plants, typically caused by the fungus Passalora fulva.',
+            'Remedy': 'Provide adequate ventilation, remove infected leaves, and use fungicides if necessary.'
+        },
+        'Tomato_Septoria_leaf_spot': {
+            'Plant': 'Tomato',
+            'Issue': 'Septoria Leaf Spot',
+            'Description': 'Septoria leaf spot caused by the fungus Septoria lycopersici, affecting tomato leaves.',
+            'Remedy': 'Remove infected leaves, apply fungicides, and practice crop rotation.'
+        },
+        'Tomato_Spider_mites_Two_spotted_spider_mite': {
+            'Plant': 'Tomato',
+            'Issue': 'Spider Mites',
+            'Description': 'Damage caused by two-spotted spider mites on tomato leaves.',
+            'Remedy': 'Spray with insecticidal soap, maintain humidity, and remove heavily infested leaves.'
         },
         'Tomato__Target_Spot': {
             'Plant': 'Tomato',
@@ -45,65 +87,23 @@ def get_disease_info(predicted_class):
             'Description': 'Target spot disease, caused by Corynespora cassiicola, affecting tomato leaves.',
             'Remedy': 'Remove affected foliage, avoid wetting foliage, and apply fungicides if needed.'
         },
+        'Tomato_Tomato_YellowLeaf_Curl_Virus': {
+            'Plant': 'Tomato',
+            'Issue': 'Yellow Leaf Curl Virus',
+            'Description': 'Tomato Yellow Leaf Curl Virus, transmitted by whiteflies, causing leaf curl and yellowing.',
+            'Remedy': 'Use disease-resistant varieties, control whiteflies, and remove infected plants.'
+        },
         'Tomato__Tomato_mosaic_virus': {
             'Plant': 'Tomato',
             'Issue': 'Tomato Mosaic Virus',
             'Description': 'Infection caused by Tomato Mosaic Virus, leading to mottling and distortion of leaves.',
             'Remedy': 'Remove infected plants, disinfect tools, and avoid handling plants when wet.'
         },
-        'Tomato__Tomato_YellowLeaf_Curl_Virus': {
-            'Plant': 'Tomato',
-            'Issue': 'Yellow Leaf Curl Virus',
-            'Description': 'Tomato Yellow Leaf Curl Virus, transmitted by whiteflies, causing leaf curl and yellowing.',
-            'Remedy': 'Use disease-resistant varieties, control whiteflies, and remove infected plants.'
-        },
-        'Tomato__Bacterial_spot': {
-            'Plant': 'Tomato',
-            'Issue': 'Bacterial Spot',
-            'Description': 'Bacterial spot affecting tomato leaves, caused by Xanthomonas bacteria.',
-            'Remedy': 'Remove infected leaves, use disease-resistant varieties, and apply copper-based fungicides.'
-        },
-        'Tomato__Early_blight': {
-            'Plant': 'Tomato',
-            'Issue': 'Early Blight',
-            'Description': 'Early blight in tomato leaves, caused by Alternaria solani.',
-            'Remedy': 'Prune affected leaves, rotate crops, and apply appropriate fungicides.'
-        },
-        'Tomato__Healthy': {
+        'Tomato_healthy': {
             'Plant': 'Tomato',
             'Issue': 'Healthy',
             'Description': 'The tomato plant is healthy and free from disease.',
             'Remedy': 'Provide balanced nutrients, ensure proper watering, and monitor regularly for signs of disease.'
-        },
-        'Tomato__Late_blight': {
-            'Plant': 'Tomato',
-            'Issue': 'Late Blight',
-            'Description': 'Late blight affecting tomato plants, caused by Phytophthora infestans.',
-            'Remedy': 'Apply fungicides, remove infected plants, and avoid overhead watering.'
-        },
-        'Tomato__Leaf_Mold': {
-            'Plant': 'Tomato',
-            'Issue': 'Leaf Mold',
-            'Description': 'Leaf mold in tomato plants, typically caused by the fungus Passalora fulva.',
-            'Remedy': 'Provide adequate ventilation, remove infected leaves, and use fungicides if necessary.'
-        },
-        'Tomato__Septoria_leaf_spot': {
-            'Plant': 'Tomato',
-            'Issue': 'Septoria Leaf Spot',
-            'Description': 'Septoria leaf spot caused by the fungus Septoria lycopersici, affecting tomato leaves.',
-            'Remedy': 'Remove infected leaves, apply fungicides, and practice crop rotation.'
-        },
-        'Tomato__Spider_mites_Two_spotted_spider_mite': {
-            'Plant': 'Tomato',
-            'Issue': 'Spider Mites',
-            'Description': 'Damage caused by two-spotted spider mites on tomato leaves.',
-            'Remedy': 'Spray with insecticidal soap, maintain humidity, and remove heavily infested leaves.'
-        },
-        'Other': {
-            'Plant': 'Unknown',
-            'Issue': 'Unknown',
-            'Description': 'The uploaded image does not match any known plant disease.',
-            'Remedy': 'Ensure you are uploading an image related to plant diseases.'
         }
     }
     return disease_info.get(predicted_class, {
@@ -115,14 +115,22 @@ def get_disease_info(predicted_class):
 
 
 # Class names
-CLASS_NAME = [
-    'Pepper_bell__Bacterial_spot', 'Pepper_bell__healthy',
-    'Potato__Early_blight',  'Potato__healthy','Potato__Late_blight','Tomato__Target_Spot','Tomato__Tomato_mosaic_virus','Tomato__Tomato_YellowLeaf_Curl_Virus',
-    'Tomato__Bacterial_spot', 'Tomato__Early_blight','Tomato__Healthy',
-    'Tomato__Late_blight', 'Tomato__Leaf_Mold',
-    'Tomato__Septoria_leaf_spot',
-    'Tomato__Spider_mites_Two_spotted_spider_mite','Other' 
-]
+CLASS_NAME = ['Other',
+ 'Pepper_bell__Bacterial_spot',
+ 'Pepper_bell__healthy',
+ 'Potato___Early_blight',
+ 'Potato___Late_blight',
+ 'Potato___healthy',
+ 'Tomato_Bacterial_spot',
+ 'Tomato_Early_blight',
+ 'Tomato_Late_blight',
+ 'Tomato_Leaf_Mold',
+ 'Tomato_Septoria_leaf_spot',
+ 'Tomato_Spider_mites_Two_spotted_spider_mite',
+ 'Tomato__Target_Spot',
+ 'Tomato_Tomato_YellowLeaf_Curl_Virus',
+ 'Tomato__Tomato_mosaic_virus',
+ 'Tomato_healthy']
 
 # Streamlit App Interface
 st.title('Plant Disease Classifier')
